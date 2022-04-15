@@ -1,0 +1,18 @@
+# 4.4
+En base a las asignaciones vigentes, calcular la fecha en la que al menos la mitad de los usuarios activos ya no tienen trabajo asignado.
+
+# Query
+```SQL
+SELECT ASSIGNMENTS.END_DATE AS STIMATED_DATE
+FROM ASSIGNMENTS
+INNER JOIN USERS
+ON USERS.ID=ASSIGNMENTS.USER_ID
+WHERE END_DATE >= '2022-03-01' AND USERS.ENABLED = TRUE
+ORDER BY END_DATE ASC
+OFFSET (SELECT COUNT(ASSIGNMENTS.ID) FROM ASSIGNMENTS WHERE END_DATE >= '2022-03-01')*0.50
+LIMIT 1;
+```
+
+# Resultados
+
+![image](https://user-images.githubusercontent.com/99292588/163513301-a88f034a-1535-493b-8856-0893634e577e.png)
